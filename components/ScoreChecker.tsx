@@ -9,6 +9,7 @@ import {
   describeFoodCompounds,
   type ScoreResult,
 } from "@/lib/scoring";
+import { isPurchasable, getAmazonSearchUrl } from "@/lib/affiliate";
 
 // 検索欄が空のときに表示する初期候補。foods配列は先頭が野菜に偏っているため、
 // 単純な先頭20件ではなくカテゴリを横断したサンプルを作る。
@@ -163,6 +164,34 @@ function FoodCompoundList({ food }: { food: FoodItem }) {
   );
 }
 
+function AffiliateLinks({ foodA, foodB }: { foodA: FoodItem; foodB: FoodItem }) {
+  const targets = [foodA, foodB].filter(isPurchasable);
+  if (targets.length === 0) return null;
+
+  return (
+    <div className="mt-4 border-t border-slate-100 pt-4">
+      <p className="text-xs font-semibold text-slate-500">関連商品</p>
+      <ul className="mt-2 flex flex-wrap gap-2">
+        {targets.map((f) => (
+          <li key={f.id}>
+            <a
+              href={getAmazonSearchUrl(f.name)}
+              target="_blank"
+              rel="nofollow sponsored noopener"
+              className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 hover:border-emerald-300 hover:text-emerald-700"
+            >
+              {f.name}をAmazonで探す ↗
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-[11px] text-slate-400">
+        Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。
+      </p>
+    </div>
+  );
+}
+
 export default function ScoreChecker() {
   const [foodA, setFoodA] = useState<FoodItem | null>(null);
   const [foodB, setFoodB] = useState<FoodItem | null>(null);
@@ -276,6 +305,10 @@ export default function ScoreChecker() {
             >
               この組み合わせの詳しい解説記事を読む →
             </Link>
+          )}
+
+          {foodA && foodB && (
+            <AffiliateLinks foodA={foodA} foodB={foodB} />
           )}
         </div>
       )}

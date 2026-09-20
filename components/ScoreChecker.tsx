@@ -10,6 +10,32 @@ import {
   type ScoreResult,
 } from "@/lib/scoring";
 
+// 検索欄が空のときに表示する初期候補。foods配列は先頭が野菜に偏っているため、
+// 単純な先頭20件ではなくカテゴリを横断したサンプルを作る。
+const defaultSample: FoodItem[] = (() => {
+  const byCategory = new Map<string, FoodItem[]>();
+  for (const f of foods) {
+    const arr = byCategory.get(f.category);
+    if (arr) arr.push(f);
+    else byCategory.set(f.category, [f]);
+  }
+  const categories = Array.from(byCategory.keys());
+  const sample: FoodItem[] = [];
+  for (let i = 0; sample.length < 20; i++) {
+    let addedAny = false;
+    for (const c of categories) {
+      const item = byCategory.get(c)?.[i];
+      if (item) {
+        sample.push(item);
+        addedAny = true;
+        if (sample.length >= 20) break;
+      }
+    }
+    if (!addedAny) break;
+  }
+  return sample;
+})();
+
 function FoodPicker({
   label,
   value,
@@ -25,7 +51,7 @@ function FoodPicker({
 
   const filtered = useMemo(() => {
     const q = query.trim();
-    if (!q) return foods.slice(0, 20);
+    if (!q) return defaultSample;
     return foods
       .filter((f) => f.name.includes(q) || f.category.includes(q))
       .slice(0, 20);

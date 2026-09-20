@@ -79,6 +79,10 @@ export const foods: FoodItem[] = [
   food("cherry", "さくらんぼ", "果物", { potassium: 210, vitamin_c: 10 }),
   food("melon", "メロン", "果物", { potassium: 340, vitamin_c: 25 }),
   food("umeboshi", "梅干し", "果物", { sodium: 7200, potassium: 220 }),
+  food("yuzu", "ゆず", "果物", { vitamin_c: 150, potassium: 210 }),
+  food("sudachi", "すだち", "果物", { vitamin_c: 40, potassium: 140 }),
+  food("ichijiku", "いちじく", "果物", { potassium: 170, fiber: 1.9, calcium: 26 }),
+  food("lime", "ライム", "果物", { vitamin_c: 33, potassium: 160 }),
 
   // ===== 穀物・いも類 =====
   food("hakumai", "白米", "穀物・いも類", { carb: 77, protein: 6.1 }),
@@ -110,6 +114,8 @@ export const foods: FoodItem[] = [
   food("torimune", "鶏むね肉", "肉類", { protein: 23, vitamin_b6: 0.6 }),
   food("torimomo", "鶏もも肉", "肉類", { protein: 17, fat: 14, zinc: 1.6 }),
   food("torilever", "鶏レバー", "肉類", { iron_nonheme: 9.0, vitamin_a: 14000, folate: 1300, vitamin_b12: 44, zinc: 3.3 }),
+  food("torisasami", "鶏ささみ", "肉類", { protein: 23, vitamin_b6: 0.62 }),
+  food("toritebasaki", "鶏手羽先", "肉類", { protein: 17.5, fat: 16, zinc: 1.5 }),
   food("butaroosu", "豚ロース肉", "肉類", { protein: 19, vitamin_b1: 0.69, zinc: 1.6, iron_heme: 0.6 }),
   food("butalever", "豚レバー", "肉類", { iron_heme: 13.0, vitamin_a: 13000, vitamin_b12: 25, folate: 810, zinc: 6.9, copper: 0.99 }),
   food("gyuuakami", "牛赤身肉", "肉類", { protein: 21, iron_heme: 2.5, zinc: 4.0, vitamin_b12: 1.7 }),

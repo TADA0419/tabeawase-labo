@@ -26,7 +26,9 @@ function FoodPicker({
   const filtered = useMemo(() => {
     const q = query.trim();
     if (!q) return foods.slice(0, 20);
-    return foods.filter((f) => f.name.includes(q)).slice(0, 20);
+    return foods
+      .filter((f) => f.name.includes(q) || f.category.includes(q))
+      .slice(0, 20);
   }, [query]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import type { CompoundId } from "./compounds";
+import { getCompound, type CompoundId } from "./compounds";
 import type { FoodItem, TraitLevel } from "./foods";
 import { interactionRules, type InteractionRule } from "./interaction-rules";
 import { findPairByFoods } from "./tabeawase-data";
@@ -65,6 +65,20 @@ function getCompoundWeights(item: FoodItem): Partial<Record<CompoundId, number>>
   }
 
   return weights;
+}
+
+export interface CompoundPresence {
+  id: CompoundId;
+  name: string;
+  weight: number; // 0〜1
+}
+
+/** その食品にどんな成分がどれくらい含まれているか(重み降順)。UIでの内訳表示用。 */
+export function describeFoodCompounds(item: FoodItem): CompoundPresence[] {
+  const weights = getCompoundWeights(item);
+  return (Object.entries(weights) as [CompoundId, number][])
+    .map(([id, weight]) => ({ id, name: getCompound(id)?.name ?? id, weight }))
+    .sort((a, b) => b.weight - a.weight);
 }
 
 export interface ScoreBreakdownItem {

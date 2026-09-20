@@ -3,7 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { foods, type FoodItem } from "@/lib/foods";
-import { scorePair, getScoreBand, type ScoreResult } from "@/lib/scoring";
+import {
+  scorePair,
+  getScoreBand,
+  describeFoodCompounds,
+  type ScoreResult,
+} from "@/lib/scoring";
 
 function FoodPicker({
   label,
@@ -88,6 +93,48 @@ const scoreBandText = {
   caution: "吸収を妨げる可能性がある組み合わせ",
 } as const;
 
+function weightLabel(weight: number): { text: string; className: string } {
+  if (weight >= 0.7) {
+    return { text: "豊富に含む", className: "bg-emerald-100 text-emerald-800" };
+  }
+  if (weight >= 0.4) {
+    return { text: "含む", className: "bg-slate-200 text-slate-700" };
+  }
+  return { text: "微量に含む", className: "bg-slate-100 text-slate-500" };
+}
+
+function FoodCompoundList({ food }: { food: FoodItem }) {
+  const compounds = describeFoodCompounds(food).slice(0, 8);
+
+  return (
+    <div>
+      <p className="text-xs font-semibold text-slate-500">
+        {food.name}の主な成分
+      </p>
+      {compounds.length > 0 ? (
+        <ul className="mt-2 flex flex-wrap gap-1.5">
+          {compounds.map((c) => {
+            const label = weightLabel(c.weight);
+            return (
+              <li
+                key={c.id}
+                className={`rounded-full px-2 py-0.5 text-xs ${label.className}`}
+                title={label.text}
+              >
+                {c.name}
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="mt-2 text-xs text-slate-400">
+          登録されている主要成分はありません
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function ScoreChecker() {
   const [foodA, setFoodA] = useState<FoodItem | null>(null);
   const [foodB, setFoodB] = useState<FoodItem | null>(null);
@@ -163,6 +210,13 @@ export default function ScoreChecker() {
               <p className="text-xs text-slate-500">{scoreBandText[band]}</p>
             </div>
           </div>
+
+          {foodA && foodB && (
+            <div className="mt-4 grid gap-3 rounded-lg bg-slate-50 p-3 sm:grid-cols-2">
+              <FoodCompoundList food={foodA} />
+              <FoodCompoundList food={foodB} />
+            </div>
+          )}
 
           {result.breakdown.length > 0 ? (
             <ul className="mt-4 space-y-2">

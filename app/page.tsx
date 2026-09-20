@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { foodPairs, relationLabel, relationColor } from "@/lib/tabeawase-data";
+import { foods } from "@/lib/foods";
 
 export default function Home() {
   const pickup = foodPairs.slice(0, 6);
@@ -24,13 +25,16 @@ export default function Home() {
           href="/tabeawase"
           className="mt-6 inline-flex items-center justify-center rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-800"
         >
-          食べ合わせチェッカーを使ってみる
+          食べ合わせスコアを計算してみる
         </Link>
+        <p className="mt-2 text-xs text-slate-400">
+          登録食品・サプリ{foods.length}件から2つ選ぶだけ
+        </p>
       </section>
 
       <section className="mt-12">
         <h2 className="text-lg font-bold text-slate-900">
-          ピックアップ食べ合わせ
+          解説記事ピックアップ
         </h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {pickup.map((pair) => (

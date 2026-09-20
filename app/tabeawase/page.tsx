@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Checker from "@/components/Checker";
+import ScoreChecker from "@/components/ScoreChecker";
 import {
   foodPairs,
   relationLabel,
   relationColor,
   type Relation,
 } from "@/lib/tabeawase-data";
+import { foods } from "@/lib/foods";
 
 export const metadata: Metadata = {
-  title: "食べ合わせチェッカー",
-  description:
-    "2つの食品を選ぶだけで、相乗効果・要注意・俗説の検証を科学的根拠つきでチェックできます。",
+  title: "食べ合わせスコアチェッカー",
+  description: `食品・サプリを2つ選ぶだけで、栄養素同士の相性を100点満点でスコア化。登録食品${foods.length}件、内訳も全て表示します。`,
 };
 
 const categories: { relation: Relation; description: string }[] = [
@@ -33,15 +33,22 @@ export default function TabeawasePage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-bold text-slate-900">
-        食べ合わせチェッカー
+        食べ合わせスコアチェッカー
       </h1>
       <p className="mt-2 text-sm leading-7 text-slate-600">
-        気になる2つの食品を選ぶと、相性(相乗効果・要注意・俗説の検証)と科学的な理由を確認できます。
+        食品・サプリを2つ選ぶと、含まれる栄養素同士の相性を100点満点でスコア化します。加点・減点の内訳もすべて表示するので、なぜそのスコアになったのかが分かります。
       </p>
 
       <div className="mt-6">
-        <Checker />
+        <ScoreChecker />
       </div>
+
+      <section className="mt-12">
+        <h2 className="text-lg font-bold text-slate-900">人気の食べ合わせ解説</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          科学的な背景をじっくり読みたい方向けの詳細記事です。
+        </p>
+      </section>
 
       {categories.map(({ relation, description }) => {
         const pairs = foodPairs.filter((p) => p.relation === relation);

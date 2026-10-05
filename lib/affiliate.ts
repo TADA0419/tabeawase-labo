@@ -1,8 +1,7 @@
 import type { FoodItem } from "./foods";
 
-// TODO: Amazonアソシエイト登録後、実際のトラッキングIDに差し替える
-// https://affiliate.amazon.co.jp/ で取得できる「トラッキングID」(例: tabeawaselabo-22)
-export const AMAZON_ASSOCIATE_TAG = "your-associate-id-22";
+// https://affiliate.amazon.co.jp/ で取得したトラッキングID
+export const AMAZON_ASSOCIATE_TAG = "tabeawaselabo-22";
 
 // Amazonで実際に購入される商品ジャンルのみアフィリエイトリンクを出す。
 // 生鮮食品(野菜・果物・肉・魚介・卵乳製品・きのこ)や医薬品は対象外。
